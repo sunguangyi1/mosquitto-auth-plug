@@ -123,7 +123,7 @@ int be_cdb_access(void *handle, const char *username, char *topic)
 	unsigned klen;
 	int found = 0;
 	struct cdb_find cdbf;
-	bool bf;
+	int bf;
 
 	if (!conf || !username || !topic)
 		return (0);
@@ -142,7 +142,7 @@ int be_cdb_access(void *handle, const char *username, char *topic)
 		val = malloc(vlen);
 		cdb_read(conf->cdb, val, vlen, vpos);
 
-		mosquitto_topic_matches_sub(val, topic, &bf);
+		mosquitto_auth_sub_topic_matches_acl(val, topic, &bf);
 		found |= bf;
 
 		free(val);
